@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HoraCerta - Calendário Escolar</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- SDK Supabase preparado para quando for conectar -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- TELA DE LOGIN -->
+  <div id="login-screen" class="login-container">
+    <div class="login-box">
+      <div class="logo">⏰ <span>HoraCerta</span></div>
+      <h2>Acessar Sistema</h2>
+      <form id="form-login">
+        <label>E-mail</label>
+        <input type="email" id="login-email" placeholder="seu.email@escola.com" required />
+
+        <label>Senha</label>
+        <input type="password" id="login-senha" placeholder="******" required />
+
+        <button type="submit" class="btn btn-primary">Entrar no Sistema</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- APLICAÇÃO PRINCIPAL -->
+  <div id="app" class="app-container hidden">
+    
+    <!-- BARRA SUPERIOR (HEADER) -->
+    <header class="navbar">
+      <div class="nav-left">
+        <div class="logo">⏰ <span>HoraCerta</span></div>
+        <span class="badge-role" id="user-role-badge">Aluno</span>
+      </div>
+
+      <!-- SELETOR DE MÊS E VISUALIZAÇÃO -->
+      <div class="nav-center">
+        <h2 id="current-month-display">Agosto 2026</h2>
+        <div class="view-selector">
+          <button id="btn-view-mes" class="btn-view active">Mês</button>
+          <button id="btn-view-semana" class="btn-view">Semana</button>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <!-- BOTÃO DE TEMA (LUA / SOL) -->
+        <button id="btn-theme-toggle" class="btn btn-outline btn-theme" title="Alternar Tema">🌙</button>
+        <span id="user-name-display">Usuário</span>
+        <button class="btn btn-outline" id="btn-logout">Sair</button>
+      </div>
+    </header>
+
+    <!-- PAINEL PRINCIPAL -->
+    <div class="main-layout">
+      
+      <!-- BARRA LATERAL ENXUTA -->
+      <aside class="sidebar">
+        <!-- Ações condicionais por Papel -->
+        <div class="actions-group">
+          <h3>Ações Rápidas</h3>
+          
+          <button class="btn btn-action hidden" id="btn-novo-evento">+ Novo Evento / Prova</button>
+          <button class="btn btn-action btn-secondary hidden" id="btn-pegar-aula">✋ Pegar Aula Vaga</button>
+          <button class="btn btn-action btn-warning hidden" id="btn-aprovar-trocas">📋 Aprovar Trocas (<span id="count-trocas">1</span>)</button>
+          <button class="btn btn-action btn-warning hidden" id="btn-bloquear-horario">🏟️ Bloquear Horário</button>
+          <button class="btn btn-action btn-secondary hidden" id="btn-feedback">💬 Reportar Problema</button>
+          <button class="btn btn-action btn-danger hidden" id="btn-admin-aviso">📢 Emitir Aviso Geral</button>
+        </div>
+
+        <!-- FILTROS DE CATEGORIAS FUNCIONAIS -->
+        <div class="legend">
+          <h3>Categorias</h3>
+          <ul id="category-filters">
+            <li>
+              <label>
+                <input type="checkbox" data-cat="aula" checked />
+                <span class="dot dot-aula"></span> Aula
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-cat="prova" checked />
+                <span class="dot dot-prova"></span> Prova / Trabalho
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-cat="feriado" checked />
+                <span class="dot dot-feriado"></span> Feriado
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-cat="atividade" checked />
+                <span class="dot dot-atividade"></span> Evento Escolar
+              </label>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- ÁREA DO CALENDÁRIO -->
+      <main class="content">
+        <div id="banner-aviso" class="banner-aviso">
+          📌 <strong>Aviso Recente:</strong> 5º e 6º horário cancelados no dia 12/08 devido a evento na quadra.
+        </div>
+
+        <div class="calendar-grid-header">
+          <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+        </div>
+
+        <div class="calendar-grid" id="calendar-body">
+          <!-- Gerado dinamicamente via JS -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL GENÉRICO -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="modal-close" id="modal-close">&times;</span>
+      <h3 id="modal-title">Título do Modal</h3>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
